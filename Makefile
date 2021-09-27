@@ -1,3 +1,4 @@
+export PATH := /etc/xcompile/mipsel/bin:$(PATH)
 CC = gcc
 MIPS = mipsel-cc
 SRC = $(wildcard *.c)
